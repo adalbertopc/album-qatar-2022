@@ -16,7 +16,6 @@ model User {
   createdAt    DateTime @default(now())
 }
 
-
 model Sticker{
   id           String   @default(uuid()) @id
   number       Int      

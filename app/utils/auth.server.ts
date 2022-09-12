@@ -1,7 +1,8 @@
+import bcrypt from "bcryptjs";
 import { redirect, json, createCookieSessionStorage } from "@remix-run/node";
 
 import { prisma } from "~/lib/db.server";
-import type { RegisterForm } from "./types.server";
+import type { LoginForm, RegisterForm } from "./types.server";
 import { createUser } from "./user.server";
 
 export async function register(user: RegisterForm) {
@@ -26,7 +27,18 @@ export async function register(user: RegisterForm) {
     );
   }
 
-  return json({ user: newUser });
+  return createUserSession(newUser.id, "/collection");
+}
+
+export async function login({ username, password }: LoginForm) {
+  const user = await prisma.user.findUnique({
+    where: { username },
+  });
+
+  if (!user || !(await bcrypt.compare(password, user.password)))
+    return json({ error: `Incorrect login` }, { status: 400 });
+
+  return createUserSession(user.id, "/collection");
 }
 
 const sessionSecret = process.env.SESSION_SECRET;
@@ -64,7 +76,7 @@ export async function requireUserId(
   const userId = session.get("userId");
   if (!userId || typeof userId !== "string") {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    throw redirect(`/login?${searchParams}`);
+    throw redirect(`/auth/login?${searchParams}`);
   }
   return userId;
 }
@@ -99,7 +111,7 @@ export async function getUser(request: Request) {
 
 export async function logout(request: Request) {
   const session = await getUserSession(request);
-  return redirect("/login", {
+  return redirect("/auth/login", {
     headers: {
       "Set-Cookie": await storage.destroySession(session),
     },

@@ -9,4 +9,13 @@ export type LoginForm = {
   password: string;
 };
 
-export type StickerForm = {};
+export type StickerForm = {
+  team: string;
+  name?: string;
+  number: number;
+};
+
+export type TeamForm = {
+  name: string;
+  groupId: string;
+};

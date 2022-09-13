@@ -1,25 +1,56 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { Form, useParams } from "@remix-run/react";
+import { Form, useLoaderData, useParams } from "@remix-run/react";
 import { Link } from "react-router-dom";
-import { isValidCollection } from "~/utils/isValidCollection";
+import { dataGen } from "~/lib/dataGen";
+import { prisma } from "~/lib/db.server";
+import { getUser } from "~/utils/auth.server";
 
-export const loader: LoaderFunction = ({ params }) => {
+import { isValidCollection } from "~/utils/isValidCollection";
+import { getStickersByTeamName } from "~/utils/sticker.server";
+
+export const loader: LoaderFunction = async ({ params }) => {
   const collection = params.slug;
   const isValid = isValidCollection(collection);
 
-  if (!isValid) {
+  if (!isValid || !collection) {
     return redirect("/collection");
   }
-  return {};
-  //   return plainData(collection);
+
+  const stickers = await getStickersByTeamName(collection.toUpperCase());
+  console.log(stickers);
+  return json(stickers);
 };
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const values = Object.fromEntries(formData);
   if (values._action === "add") {
-    //   supabase sum +1
+    const user = await getUser(request);
+
+    if (!user) {
+      return redirect("/auth/login");
+    }
+    const exists = await prisma.userSticker.findUnique({
+      where: { userId_stickerId: { userId: user.id, stickerId: "arg2" } },
+    });
+    // if exists sum 1 to quantity
+    // else create new
+    if (exists) {
+      return await prisma.userSticker.update({
+        where: { userId_stickerId: { userId: user.id, stickerId: "arg2" } },
+        data: { quantity: { increment: 1 } },
+      });
+    } else {
+      return await prisma.userSticker.create({
+        data: {
+          userId: user.id,
+          stickerId: "arg2",
+          quantity: 1,
+        },
+      });
+    }
   }
 
   if (values._action === "remove") {
@@ -30,17 +61,17 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Slug() {
   const { slug } = useParams();
-  const qty = slug === "fwc" ? 29 : 20;
-
+  const stickers = useLoaderData();
+  console.log(stickers);
   return (
     <div>
       <h1>Collection</h1>
       <Link to="/collection">Back to collection</Link>
-      {new Array(qty).fill(0).map((_, i) => {
+      {stickers.map((sticker, i) => {
         return (
-          <div key={i + 1}>
+          <div key={sticker.id}>
             <div>
-              <span>{slug}</span>
+              <span>{sticker.team.name}</span>
               <span>{i + 1}</span>
               <Form method="post">
                 <input type="hidden" name={slug} value={i + 1} />

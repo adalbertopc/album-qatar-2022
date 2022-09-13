@@ -12,20 +12,23 @@ model User {
   username     String   @unique
   password     String   
   name         String?
-  stickers     StickersOnUser[]
+  stickers     UserSticker[]
   createdAt    DateTime @default(now())
 }
 
 model Sticker{
   id           String   @default(uuid()) @id
-  number       Int      
-  name         String
+  number       Int
+  name         String?      
   description  String?
+  team         Team? @relation(fields: [teamId], references: [id])
+  teamId       String?
   image        String?
-  users        StickersOnUser[]
+  quality      String? 
+  users        UserSticker[]
 }
 
-model StickersOnUser{
+model UserSticker{
   user         User     @relation(fields: [userId], references: [id])
   userId       String
   sticker      Sticker  @relation(fields: [stickerId], references: [id])
@@ -36,3 +39,19 @@ model StickersOnUser{
   @@id([userId, stickerId])
 }
 
+model Group{
+  id           String   @default(uuid()) @id
+  name         String   @unique
+  description  String?
+  teams     Team[]
+
+}
+
+model Team{
+  id           String   @default(uuid()) @id
+  name         String   @unique
+  description  String?
+  stickers     Sticker[]
+  group        Group    @relation(fields: [groupId], references: [id])
+  groupId      String
+}

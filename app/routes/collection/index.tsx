@@ -1,14 +1,21 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 import { data } from "~/lib/data";
-import { requireUserId } from "~/utils/auth.server";
+import { getUser, requireUserId } from "~/utils/auth.server";
+import { getStickersByUserId } from "~/utils/sticker.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   await requireUserId(request);
-  return null;
+  const user = await getUser(request);
+  if (!user) return redirect("/auth/login");
+  const stickers = await getStickersByUserId(user.id);
+  return stickers;
 };
 
 export default function Index() {
+  const userdata = useLoaderData();
+  console.log(userdata);
   return (
     <div>
       <h1>Collection</h1>

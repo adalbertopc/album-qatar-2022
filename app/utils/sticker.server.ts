@@ -89,44 +89,18 @@ export async function getStickersByTeamName(teamName: string) {
 }
 
 export async function getStickersByTeamNameAndUserId(teamName: string, userId: string) {
-  const stickers = await prisma.$queryRaw`
-    SELECT
-        s.id,
-        s.name,
-        s.image,
-        s.description,
-        s.teamId,
-        t.name as teamName,
-        us.quantity
-    FROM
+  const teamStickers = await getStickersByTeamName(teamName)
+  const userStickers = await getStickersByUserId(userId)
 
-        Sticker s
-    INNER JOIN
+  const stickers = teamStickers.map(sticker => {
+    const userSticker = userStickers.find(userSticker => userSticker.stickerId === sticker.id)
+    return {
+      ...sticker,
+      quantity: userSticker?.quantity || 0,
+    }
+  })
 
-        Team t
-    ON
-
-        s.teamId = t.id
-    LEFT JOIN
-
-        UserSticker us
-    ON
-
-        s.id = us.stickerId
-    WHERE
-
-        t.name = ${teamName}
-    AND
-
-        us.userId = ${userId}
-    OR
-
-        us.userId IS NULL
-    ORDER BY
-
-        s.number ASC
-    `
-  return stickers
+  return json(stickers)
 }
 
 export async function sumOneToUserSticker(userId: string, stickerId: string) {

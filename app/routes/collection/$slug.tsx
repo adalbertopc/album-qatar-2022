@@ -1,14 +1,12 @@
+import { Link, Form, useLoaderData, useParams } from '@remix-run/react'
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
-import { json } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
-import { Form, useLoaderData, useParams } from '@remix-run/react'
-import { Link } from 'react-router-dom'
-import { prisma } from '~/lib/db.server'
+import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import { getUser } from '~/utils/auth.server'
 
 import { isValidCollection } from '~/utils/isValidCollection'
 import {
-  getStickersByTeamName,
+  getStickersByTeamNameAndUserId,
   subtractOneToUserSticker,
   sumOneToUserSticker,
 } from '~/utils/sticker.server'
@@ -25,8 +23,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return redirect('/collection')
   }
 
-  const stickers = await getStickersByTeamName(collection)
-  return json(stickers)
+  const stickers = await getStickersByTeamNameAndUserId(collection, user.id)
+  return stickers
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -49,6 +47,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Slug() {
   const { slug } = useParams()
   const stickers = useLoaderData()
+  console.log(stickers)
 
   return (
     <div>
@@ -59,24 +58,33 @@ export default function Slug() {
           return (
             <div
               key={sticker.id}
-              className="flex h-52 w-40 items-center justify-center rounded-xl p-5 shadow-sm transition-transform  hover:scale-105"
+              className="group relative flex h-52 w-40 items-center justify-center rounded-xl p-5 shadow-sm  transition-transform hover:scale-105"
             >
               <div className="text-center">
                 <span className="block text-2xl font-bold">{sticker.team.name}</span>
-                <span className="mt-4 block text-3xl font-bold">{sticker.number}</span>
-                <Form method="post">
-                  <input type="hidden" name="sticker_id" value={sticker.id} />
-                  <button name="_action" value="add">
-                    +
-                  </button>
-                </Form>
-                <Form method="post">
-                  <input type="hidden" name="sticker_id" value={sticker.id} />
-                  <button name="_action" value="remove">
-                    -
-                  </button>
-                </Form>
-                {/* <span> cantidad: {3}</span> */}
+                <span className="mt-3 block text-3xl font-bold">{sticker.number}</span>
+                <div className="absolute left-1/2 bottom-4 flex -translate-x-1/2 items-center justify-center gap-4 md:hidden md:group-hover:flex">
+                  <Form method="post">
+                    <input type="hidden" name="sticker_id" value={sticker.id} />
+                    <button
+                      name="_action"
+                      value="add"
+                      className="rounded-lg bg-green-600 transition-all hover:scale-105 hover:bg-green-700"
+                    >
+                      <PlusIcon width={30} height={30} className="fill-white" />
+                    </button>
+                  </Form>
+                  <Form method="post">
+                    <input type="hidden" name="sticker_id" value={sticker.id} />
+                    <button
+                      name="_action"
+                      value="remove"
+                      className="rounded-lg bg-red-600 transition-all hover:scale-105 hover:bg-red-700"
+                    >
+                      <MinusIcon width={30} height={30} className="fill-white" />
+                    </button>
+                  </Form>
+                </div>
               </div>
             </div>
           )

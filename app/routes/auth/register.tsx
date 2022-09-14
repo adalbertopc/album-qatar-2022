@@ -1,60 +1,130 @@
-import type { ActionFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Form, Link, useActionData, useTransition } from "@remix-run/react";
-import { register } from "~/utils/auth.server";
+import type { ActionFunction, MetaFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { Form, Link, useActionData, useTransition } from '@remix-run/react'
+import { Button, Input } from '~/components'
+import { register } from '~/utils/auth.server'
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const username = String(formData.get("username"));
-  const password = String(formData.get("password"));
-  const name = String(formData.get("name"));
+  const formData = await request.formData()
+  const username = String(formData.get('username'))
+  const name = String(formData.get('name'))
+  const password = String(formData.get('password'))
+  const passwordConfirmation = String(formData.get('confirm_password'))
+
+  // validate username no special characters
+  const regex = /^[a-zA-Z0-9]+$/
+  if (!regex.test(username)) {
+    return json({
+      error: {
+        username: 'El nombre de usuario no puede contener caracteres especiales',
+      },
+    })
+  }
 
   if (username.length < 2) {
     return json({
-      error: "Username must be at least 2 characters",
-    });
+      error: {
+        username: 'El nombre de usuario debe tener al menos 2 caracteres',
+      },
+    })
   }
 
   if (username)
     if (name.toString().length < 2) {
       return json({
-        error: "Name must be at least 2 characters",
-      });
+        error: {
+          name: 'El nombre debe tener al menos 2 caracteres',
+        },
+      })
     }
 
   if (password.length < 8) {
     return json({
-      error: "Password must be at least 8 characters",
-    });
+      error: {
+        password: 'La contraseña debe tener al menos 8 caracteres',
+      },
+    })
   }
 
-  return await register({ username, name, password });
-};
+  if (password !== passwordConfirmation) {
+    return json({
+      error: {
+        password: 'Las contraseñas no coinciden',
+      },
+    })
+  }
+
+  return await register({ username, name, password })
+}
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Registrarse',
+  }
+}
 
 export default function Register() {
-  const data = useActionData();
-  console.log(data);
-  const { state, submission } = useTransition();
+  const errors = useActionData()
+  const { state } = useTransition()
 
   return (
-    <div>
-      {state === "submitting" ? <div>Loading...</div> : null}
-      <Form method="post">
-        <label>
-          username
-          <input type="text" name="username" />
-        </label>
-        <label>
-          name
-          <input type="text" name="name" />
-        </label>
-        <label>
-          Password
-          <input type="password" name="password" />
-        </label>
-        <button type="submit">Register</button>
+    <div className="flex h-screen flex-col items-center justify-center gap-4">
+      <h1 className="text-5xl font-semibold">Regístrate</h1>
+      <Form method="post" className="flex w-full max-w-md flex-col rounded-2xl border p-10">
+        <Input
+          label="Nombre"
+          name="name"
+          placeholder="Escribe tu nombre"
+          className="mb-4"
+          error={errors?.error?.username}
+        />
+        <Input
+          label="Nombre de usuario"
+          name="username"
+          placeholder="Escribe tu nombre de usuario"
+          className="mb-4"
+          error={errors?.error?.username}
+        />
+        <Input
+          label="Contraseña"
+          name="password"
+          type="password"
+          placeholder="Escribe tu contraseña"
+          className="mb-6"
+          error={errors?.error?.password}
+        />
+        <Input
+          label="Confirma tu contraseña"
+          name="confirm_password"
+          type="password"
+          placeholder="Escribe tu contraseña"
+          className="mb-6"
+          error={errors?.error?.password}
+        />
+        <Button type="submit" disabled={state === 'loading'}>
+          {state === 'loading' ? 'Cargando...' : 'Registrarse'}
+        </Button>
+        {state !== 'loading' && (
+          <>
+            {errors?.error === 'Username already exists' && (
+              <p className="mt-2 text-center text-sm text-red-500">
+                El nombre de usuario ya existe, porfavor vuelve a intentarlo
+              </p>
+            )}
+            {errors?.error === 'Something went wrong' && (
+              <p className="mt-2 text-center text-sm text-red-500">
+                Algo salió mal, porfavor vuelve a intentarlo
+              </p>
+            )}
+          </>
+        )}
       </Form>
-      <Link to="/auth/login">Login</Link>
+      <p>
+        ¿Ya tienes una cuenta?{' '}
+        <Link to="/auth/login" className="font-semibold">
+          Inicia sesión
+        </Link>
+      </p>
     </div>
-  );
+  )
 }

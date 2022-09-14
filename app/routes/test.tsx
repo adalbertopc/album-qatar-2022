@@ -1,7 +1,6 @@
 import { json, LoaderFunction } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { Sticker } from '~/components'
-import { countryColors, getData } from '~/constants/colors'
 import { countries } from '~/constants/countries'
 
 export const loader: LoaderFunction = async () => {
@@ -21,7 +20,7 @@ export default function Test() {
             team={country.toUpperCase()}
             name="Lionel Messi"
             showButtons
-            color={data[country]?.colors[0] || 'gray'}
+            quantity={0}
           />
         )
       })}

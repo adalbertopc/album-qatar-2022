@@ -1,4 +1,4 @@
-import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
+import { DocumentIcon, InformationCircleIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import { Form } from '@remix-run/react'
 import clsx from 'clsx'
 import { countries } from '~/constants/countries'
@@ -7,6 +7,7 @@ interface StickerProps {
   id: string
   number: number
   team: string
+  quantity: number
   name?: string
   showButtons?: boolean
   className?: string
@@ -18,6 +19,7 @@ export const Sticker: React.FC<StickerProps> = ({
   team,
   name,
   showButtons,
+  quantity,
   className,
 }) => {
   const country: string = countries[team.toLowerCase()].name
@@ -30,7 +32,10 @@ export const Sticker: React.FC<StickerProps> = ({
       <div
         className={clsx(
           'relative flex h-full w-full  items-center justify-center rounded-lg transition-transform hover:scale-105',
-          `bg-${color}${color === 'white' || color === 'black' ? '' : '-500'}`
+          `bg-${color}${color === 'white' || color === 'black' ? '' : '-500'}`,
+          {
+            'bg-opacity-50': quantity === 0 || quantity === undefined || quantity === null,
+          }
         )}
       >
         <img
@@ -39,6 +44,10 @@ export const Sticker: React.FC<StickerProps> = ({
           className="absolute left-1/2 top-1 h-8 w-8 -translate-x-1/2 object-contain drop-shadow-lg"
         />
         <div className={clsx('z-20 text-center', textColor)}>
+          <div className="flex items-center justify-center">
+            <DocumentIcon className="h-3 w-3 text-white" />
+            <span className="text-xs font-medium text-white">{quantity}</span>
+          </div>
           <span className="block text-xl font-bold drop-shadow-md">{team}</span>
           <span className="mt-1 block text-3xl font-bold drop-shadow-md">{number}</span>
           <span className="mt-2 block text-sm font-medium">{name}</span>

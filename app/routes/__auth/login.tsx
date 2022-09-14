@@ -41,9 +41,12 @@ export const meta: MetaFunction = () => {
 export default function Login() {
   const errors = useActionData()
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-4">
-      <h1 className="text-5xl font-semibold">Iniciar sesión</h1>
-      <Form method="post" className="flex w-full max-w-md flex-col rounded-2xl border p-10">
+    <div className="mt-20 flex h-full flex-col items-center justify-center gap-4 text-white">
+      <h1 className="mb-4 text-5xl font-bold">Inicia sesión</h1>
+      <Form
+        method="post"
+        className="flex w-full max-w-md flex-col rounded-2xl border border-gray-300 p-10"
+      >
         <Input
           label="Nombre de usuario"
           name="username"
@@ -68,7 +71,7 @@ export default function Login() {
       </Form>
       <p>
         ¿No tienes una cuenta?{' '}
-        <Link to="/auth/register" className="font-semibold">
+        <Link to="/register" className="font-semibold">
           Regístrate
         </Link>
       </p>

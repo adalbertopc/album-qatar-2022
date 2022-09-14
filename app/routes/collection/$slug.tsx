@@ -11,6 +11,7 @@ import {
   sumOneToUserSticker,
 } from '~/utils/sticker.server'
 import { Sticker } from '~/components'
+import { useState } from 'react'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const user = await getUser(request)
@@ -49,6 +50,11 @@ export default function Slug() {
   const { slug } = useParams()
   const stickers = useLoaderData()
 
+  // when update the quantity of a sticker, only the quantity is updated
+  // the rest of the stickers are not updated
+  // so we need to update the quantity of the sticker in the array
+  // to make the quantity update without refreshing the page
+
   return (
     <div>
       <h1 className="text-4xl font-semibold">Equipo {slug}</h1>
@@ -61,6 +67,7 @@ export default function Slug() {
               id={sticker.id}
               name={sticker.name}
               team={slug}
+              quantity={sticker.quantity}
               number={sticker.number}
               showButtons
             />

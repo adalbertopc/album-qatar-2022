@@ -68,9 +68,12 @@ export default function Register() {
   const { state } = useTransition()
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-4">
+    <div className="mt-20 flex h-full flex-col items-center justify-center gap-4 text-white">
       <h1 className="text-5xl font-semibold">Regístrate</h1>
-      <Form method="post" className="flex w-full max-w-md flex-col rounded-2xl border p-10">
+      <Form
+        method="post"
+        className="flex w-full max-w-md flex-col rounded-2xl border border-gray-300 p-10"
+      >
         <Input
           label="Nombre"
           name="name"
@@ -121,7 +124,7 @@ export default function Register() {
       </Form>
       <p>
         ¿Ya tienes una cuenta?{' '}
-        <Link to="/auth/login" className="font-semibold">
+        <Link to="/login" className="font-semibold">
           Inicia sesión
         </Link>
       </p>

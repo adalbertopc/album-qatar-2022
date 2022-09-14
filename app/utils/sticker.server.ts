@@ -1,7 +1,6 @@
-import { json } from "@remix-run/node";
-import type { StickerForm } from "./types.server";
-import { prisma } from "~/lib/db.server";
-import { getTeamByName } from "./team.server";
+import { json } from '@remix-run/node'
+import type { StickerForm } from './types.server'
+import { prisma } from '~/lib/db.server'
 
 export async function createSticker({ name, number, team }: StickerForm) {
   const exists = await prisma.sticker.findFirst({
@@ -12,13 +11,10 @@ export async function createSticker({ name, number, team }: StickerForm) {
         id: team,
       },
     },
-  });
+  })
 
   if (exists) {
-    return json(
-      { error: `Sticker already exists with that number` },
-      { status: 400 }
-    );
+    return json({ error: `Sticker already exists with that number` }, { status: 400 })
   }
 
   const newSticker = await prisma.sticker.create({
@@ -31,9 +27,9 @@ export async function createSticker({ name, number, team }: StickerForm) {
         },
       },
     },
-  });
+  })
 
-  return newSticker;
+  return newSticker
 }
 
 export async function getStickersByUserId(userId: string) {
@@ -59,16 +55,15 @@ export async function getStickersByUserId(userId: string) {
         },
       },
     },
-  });
-  console.log(stickers);
-  return stickers;
+  })
+  console.log(stickers)
+  return stickers
 }
 
 export async function getStickersByTeamName(teamName: string) {
-  //   const { id } = await getTeamByName(teamName);
   const stickers = await prisma.sticker.findMany({
     orderBy: {
-      number: "asc",
+      number: 'asc',
     },
     where: {
       team: {
@@ -79,6 +74,7 @@ export async function getStickersByTeamName(teamName: string) {
       id: true,
       name: true,
       image: true,
+      number: true,
       description: true,
       team: {
         select: {
@@ -87,15 +83,12 @@ export async function getStickersByTeamName(teamName: string) {
         },
       },
     },
-  });
+  })
 
-  return stickers;
+  return stickers
 }
 
-export async function getStickersByTeamNameAndUserId(
-  teamName: string,
-  userId: string
-) {
+export async function getStickersByTeamNameAndUserId(teamName: string, userId: string) {
   const stickers = await prisma.$queryRaw`
     SELECT
         s.id,
@@ -132,6 +125,80 @@ export async function getStickersByTeamNameAndUserId(
     ORDER BY
 
         s.number ASC
-    `;
-  return stickers;
+    `
+  return stickers
+}
+
+export async function sumOneToUserSticker(userId: string, stickerId: string) {
+  const exists = await prisma.userSticker.findFirst({
+    where: {
+      userId,
+      stickerId,
+    },
+  })
+
+  if (exists) {
+    const updated = await prisma.userSticker.update({
+      where: {
+        userId_stickerId: {
+          userId,
+          stickerId,
+        },
+      },
+      data: {
+        quantity: {
+          increment: 1,
+        },
+      },
+    })
+    return json(updated)
+  }
+
+  const newSticker = await prisma.userSticker.create({
+    data: {
+      userId,
+      stickerId,
+      quantity: 1,
+    },
+  })
+
+  return json(newSticker)
+}
+
+export async function subtractOneToUserSticker(userId: string, stickerId: string) {
+  const exists = await prisma.userSticker.findFirst({
+    where: {
+      userId,
+      stickerId,
+    },
+  })
+
+  if (exists) {
+    if (exists.quantity > 1) {
+      const updated = await prisma.userSticker.update({
+        where: {
+          userId_stickerId: {
+            userId,
+            stickerId,
+          },
+        },
+        data: {
+          quantity: {
+            decrement: 1,
+          },
+        },
+      })
+      return json(updated)
+    }
+
+    const deleted = await prisma.userSticker.delete({
+      where: {
+        userId_stickerId: {
+          userId,
+          stickerId,
+        },
+      },
+    })
+    return json(deleted)
+  }
 }

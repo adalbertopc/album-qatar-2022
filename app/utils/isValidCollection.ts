@@ -1,5 +1,6 @@
-import { plainData } from "./plainData";
+import { plainData } from './plainData'
 
 export const isValidCollection = (slug: string) => {
-  return plainData.includes(slug);
-};
+  console.log(plainData)
+  return plainData.includes(slug.toLowerCase())
+}

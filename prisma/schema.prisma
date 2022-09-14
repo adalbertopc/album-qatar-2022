@@ -8,50 +8,50 @@ datasource db {
 }
 
 model User {
-  id           String   @default(uuid()) @id
-  username     String   @unique
-  password     String   
-  name         String?
-  stickers     UserSticker[]
-  createdAt    DateTime @default(now())
+  id        String        @id @default(uuid())
+  username  String        @unique
+  password  String
+  name      String?
+  stickers  UserSticker[]
+  createdAt DateTime      @default(now())
 }
 
-model Sticker{
-  id           String   @default(uuid()) @id
-  number       Int
-  name         String?      
-  description  String?
-  team         Team? @relation(fields: [teamId], references: [id])
-  teamId       String?
-  image        String?
-  quality      String? 
-  users        UserSticker[]
+model Sticker {
+  id          String        @id @default(uuid())
+  number      Int
+  name        String?
+  description String?
+  team        Team?         @relation(fields: [teamId], references: [id])
+  teamId      String?
+  image       String?
+  quality     String?
+  users       UserSticker[]
 }
 
-model UserSticker{
-  user         User     @relation(fields: [userId], references: [id])
-  userId       String
-  sticker      Sticker  @relation(fields: [stickerId], references: [id])
-  stickerId    String
-  quantity     Int
-  addedAt      DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+model UserSticker {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  sticker   Sticker  @relation(fields: [stickerId], references: [id])
+  stickerId String
+  quantity  Int
+  addedAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@id([userId, stickerId])
 }
 
-model Group{
-  id           String   @default(uuid()) @id
-  name         String   @unique
-  description  String?
-  teams     Team[]
-
+model Group {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  teams       Team[]
 }
 
-model Team{
-  id           String   @default(uuid()) @id
-  name         String   @unique
-  description  String?
-  stickers     Sticker[]
-  group        Group    @relation(fields: [groupId], references: [id])
-  groupId      String
+model Team {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  stickers    Sticker[]
+  group       Group     @relation(fields: [groupId], references: [id])
+  groupId     String
 }

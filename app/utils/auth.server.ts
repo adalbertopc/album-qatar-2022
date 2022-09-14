@@ -11,7 +11,7 @@ export async function register(user: RegisterForm) {
   });
   if (exists) {
     return json(
-      { error: `User already exists with that username` },
+      { error: "Username already exists" },
       { status: 400 }
     );
   }
@@ -20,7 +20,7 @@ export async function register(user: RegisterForm) {
   if (!newUser) {
     return json(
       {
-        error: `Something went wrong trying to create a new user.`,
+        error: 'Something went wrong',
         fields: { username: user.username, password: user.password },
       },
       { status: 400 }

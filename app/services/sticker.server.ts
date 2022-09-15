@@ -56,7 +56,7 @@ export async function getStickersByUserId(userId: string) {
       },
     },
   })
-  console.log(stickers)
+
   return stickers
 }
 

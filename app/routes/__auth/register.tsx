@@ -2,7 +2,7 @@ import type { ActionFunction, MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import { Button, Input } from '~/components'
-import { register } from '~/utils/auth.server'
+import { register } from '~/services/auth.server'
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()

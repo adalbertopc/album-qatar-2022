@@ -6,6 +6,7 @@ import { countries } from '~/constants/countries'
 export const loader: LoaderFunction = async () => {
   return json(countries)
 }
+
 export default function Test() {
   const data = useLoaderData()
 

@@ -1,4 +1,4 @@
-import { DocumentIcon, InformationCircleIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
+import { DocumentIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import { Form } from '@remix-run/react'
 import clsx from 'clsx'
 import { countries } from '~/constants/countries'
@@ -27,15 +27,18 @@ export const Sticker: React.FC<StickerProps> = ({
   const textColor: string = color === 'white' ? 'text-black' : 'text-white'
   return (
     <div
-      className={clsx(className, `group h-52 w-40 overflow-hidden rounded-xl border p-4 shadow-sm`)}
+      className={clsx(
+        className,
+        'group h-52 w-40 rounded-xl shadow-md transition-all hover:scale-105',
+        {
+          [`border-${color}-500 border-4 border-opacity-70`]: color,
+          'border-opacity-20': quantity === 0 || quantity === undefined || quantity === null,
+        }
+      )}
     >
       <div
         className={clsx(
-          'relative flex h-full w-full  items-center justify-center rounded-lg transition-transform hover:scale-105',
-          `bg-${color}${color === 'white' || color === 'black' ? '' : '-500'}`,
-          {
-            'bg-opacity-50': quantity === 0 || quantity === undefined || quantity === null,
-          }
+          'relative flex h-full w-full  items-center justify-center rounded-lg bg-slate-800'
         )}
       >
         <img

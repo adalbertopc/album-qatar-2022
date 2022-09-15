@@ -1,38 +1,36 @@
-import { Link, Form, useLoaderData, useParams } from '@remix-run/react'
+import { Link, useLoaderData, useParams } from '@remix-run/react'
 import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
-import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
-import { getUser } from '~/utils/auth.server'
+import { getUser } from '~/services/auth.server'
 
 import { isValidCollection } from '~/utils/isValidCollection'
 import {
   getStickersByTeamNameAndUserId,
   subtractOneToUserSticker,
   sumOneToUserSticker,
-} from '~/utils/sticker.server'
+} from '~/services/sticker.server'
 import { Sticker } from '~/components'
-import { useState } from 'react'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const user = await getUser(request)
 
   if (!user) {
-    return redirect('/auth/login')
+    return redirect('/login')
   }
-  const collection = params.slug
-  const isValid = isValidCollection(collection)
+  const teamShortName = params.teamShortName
+  const isValid = isValidCollection(teamShortName)
   if (!isValid) {
-    return redirect('/collection')
+    return redirect('/home')
   }
 
-  const stickers = await getStickersByTeamNameAndUserId(collection, user.id)
+  const stickers = await getStickersByTeamNameAndUserId(teamShortName, user.id)
   return stickers
 }
 
 export const action: ActionFunction = async ({ request }) => {
   const user = await getUser(request)
   if (!user) {
-    return redirect('/auth/login')
+    return redirect('/login')
   }
   const formData = await request.formData()
   const values = Object.fromEntries(formData)
@@ -47,26 +45,21 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function Slug() {
-  const { slug } = useParams()
+  const { teamShortName } = useParams()
   const stickers = useLoaderData()
-
-  // when update the quantity of a sticker, only the quantity is updated
-  // the rest of the stickers are not updated
-  // so we need to update the quantity of the sticker in the array
-  // to make the quantity update without refreshing the page
 
   return (
     <div>
-      <h1 className="text-4xl font-semibold">Equipo {slug}</h1>
-      <Link to="/collection">Back to collection</Link>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <h1 className="text-4xl font-semibold">Equipo {teamShortName}</h1>
+      <Link to="/home">Back to collection</Link>
+      <div className="grid gap-4 md:grid-flow-col-dense">
         {stickers.map(sticker => {
           return (
             <Sticker
               key={sticker.id}
               id={sticker.id}
               name={sticker.name}
-              team={slug}
+              team={teamShortName}
               quantity={sticker.quantity}
               number={sticker.number}
               showButtons

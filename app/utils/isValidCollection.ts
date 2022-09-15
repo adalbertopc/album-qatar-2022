@@ -1,6 +1,5 @@
-import { plainData } from './plainData'
+import { plainData } from '../services/plainData'
 
 export const isValidCollection = (slug: string) => {
-  console.log(plainData)
   return plainData.includes(slug.toLowerCase())
 }

@@ -3,10 +3,10 @@ import { json, redirect } from '@remix-run/node'
 import { Form, Link, useActionData } from '@remix-run/react'
 import { Button, Input } from '~/components'
 
-import { login, getUser } from '~/utils/auth.server'
+import { login, getUser } from '~/services/auth.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return (await getUser(request)) ? redirect('/collection') : null
+  return (await getUser(request)) ? redirect('/home') : null
 }
 
 export const action: ActionFunction = async ({ request }) => {

@@ -2,26 +2,20 @@ import { json, LoaderFunction } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { Link, useLoaderData, useTransition } from '@remix-run/react'
 import clsx from 'clsx'
-import { getUser, requireUserId } from '~/utils/auth.server'
-import { getGroupsWithTeamsAndUserStickers } from '~/utils/group.server'
+import { getUser, requireUserId } from '~/services/auth.server'
+import { getGroupsWithTeamsAndUserStickers } from '~/services/group.server'
 import { colors } from '~/constants/colors'
 
 export const loader: LoaderFunction = async ({ request }) => {
   await requireUserId(request)
   const user = await getUser(request)
-  if (!user) return redirect('/auth/login')
+  if (!user) return redirect('/login')
   const groups = await getGroupsWithTeamsAndUserStickers(user.id)
   return groups
 }
 
 export default function Index() {
   const groups = useLoaderData()
-
-  const transtion = useTransition()
-
-  if (transtion.state === 'loading') {
-    return <div>Loading...</div>
-  }
 
   return (
     <div className="container mx-auto">
@@ -43,7 +37,7 @@ export default function Index() {
               <div className="grid gap-2 md:grid-cols-2">
                 {group.teams.map(team => {
                   return (
-                    <Link key={team.id} to={`/collection/${team.name}`}>
+                    <Link key={team.id} to={`/team/${team.name}`}>
                       <div className="cursor-pointer rounded-md border-2 border-opacity-50 p-2 tracking-wider shadow-lg transition-transform hover:scale-105">
                         {team.name}
                       </div>

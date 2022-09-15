@@ -1,19 +1,18 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
-let prisma: PrismaClient;
+let prisma: PrismaClient
 declare global {
-  var __db: PrismaClient | undefined;
+  var __db__: PrismaClient
 }
 
-if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
-  prisma.$connect();
+if (process.env.NODE_ENV === 'production') {
+  prisma = new PrismaClient()
 } else {
-  if (!global.__db) {
-    global.__db = new PrismaClient();
-    global.__db.$connect();
+  if (!global.__db__) {
+    global.__db__ = new PrismaClient()
   }
-  prisma = global.__db;
+  prisma = global.__db__
+  prisma.$connect()
 }
 
-export { prisma };
+export { prisma }

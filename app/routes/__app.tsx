@@ -6,7 +6,7 @@ export default function PrivateApp() {
     <div>
       <div className="relative md:flex md:min-h-screen">
         <Sidebar />
-        <main className="max-h-screen min-h-screen w-full overflow-y-auto p-4 ">
+        <main className="max-h-screen min-h-screen w-full overflow-y-auto p-4 md:p-6">
           <Outlet />
         </main>
       </div>

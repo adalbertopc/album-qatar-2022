@@ -20,8 +20,8 @@ export default function Index() {
 
   return (
     <div className="container mx-auto">
-      <h1 className="mb-4 text-4xl font-semibold">Mi colección</h1>
-      <h3 className="text-lg font-medium">Estampas obtenidas: 0 / 680</h3>
+      <h1 className="text-4xl font-semibold leading-tight ">Mi colección 📄</h1>
+      <h2 className="text-xl font-medium">Estampas obtenidas.</h2>
       <div className="grid gap-8 md:grid-cols-2">
         {groups.map(group => {
           return (

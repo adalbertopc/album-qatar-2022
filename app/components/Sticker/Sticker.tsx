@@ -1,5 +1,5 @@
-import { DocumentIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import { Form } from '@remix-run/react'
+import { DocumentIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import { countries } from '~/constants/countries'
 
@@ -56,7 +56,7 @@ export const Sticker: React.FC<StickerProps> = ({
           <span className="mt-2 block text-sm font-medium">{name}</span>
         </div>
         {showButtons && (
-          <div className="absolute left-1/2 bottom-1 flex -translate-x-1/2 items-center justify-center gap-4 md:hidden md:group-hover:flex">
+          <div className="absolute left-1/2 bottom-2 flex -translate-x-1/2 items-center justify-center gap-4 md:hidden md:group-hover:flex">
             <Form method="post">
               <input type="hidden" name="sticker_id" value={id} />
               <button

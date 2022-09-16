@@ -12,7 +12,10 @@ export default function Index() {
               Qatar 2022 Sticker Album Tracker
             </h1>{' '}
             <h2 className="order-first bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text font-medium tracking-wide text-transparent">
-              Hecho con 🧡 por <a href="https://adal.dev">adal</a>
+              Hecho con 🧡 por{' '}
+              <a className="font-bold" href="https://adal.dev">
+                adal
+              </a>
             </h2>
           </div>{' '}
           <p className="mx-auto mt-8 max-w-2xl text-xl font-medium text-white">

@@ -19,7 +19,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ name, teams }) => {
       <div className="grid gap-8 md:grid-cols-2">
         {teams.map(team => {
           return (
-            <Link key={team.name} to={name}>
+            <Link key={team.name} to={`/team/${team.name}`}>
               <div className="relative flex flex-col items-center justify-center space-y-4 rounded-lg border-2 border-transparent bg-slate-800 p-4 shadow-md hover:border-gray-500">
                 <div className="flex flex-col items-center justify-center space-y-2 text-white">
                   <h3 className="text-lg font-bold">{team.name}</h3>

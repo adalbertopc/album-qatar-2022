@@ -8,7 +8,7 @@ export default function Index() {
       <section className="relative text-center">
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
           <div className="mx-auto flex max-w-3xl flex-col">
-            <h1 className="tracking-tighest mt-1 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-4xl font-extrabold uppercase text-transparent sm:text-5xl lg:text-7xl">
+            <h1 className="tracking-tighest mt-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-4xl font-extrabold uppercase text-transparent sm:text-5xl lg:text-7xl">
               Qatar 2022 Sticker Album Tracker
             </h1>{' '}
             <h2 className="order-first bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text font-medium tracking-wide text-transparent">
@@ -20,7 +20,7 @@ export default function Index() {
           </p>
           <Link
             to="register"
-            className="mt-8 inline-block rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 py-4 px-10 font-medium text-white transition-all hover:brightness-110"
+            className="mt-8 inline-block rounded-lg bg-gradient-to-bl from-cyan-500 via-blue-500 to-purple-500  py-4 px-10 font-medium text-white transition-all hover:brightness-110"
           >
             Regístrate
           </Link>

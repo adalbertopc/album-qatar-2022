@@ -29,7 +29,7 @@ export const Sticker: React.FC<StickerProps> = ({
     <div
       className={clsx(
         className,
-        'group h-52 w-40 rounded-xl shadow-md transition-all hover:scale-105',
+        'group mx-auto h-52 w-40 rounded-xl shadow-md transition-all hover:scale-105',
         {
           [`border-${color}-500 border-4 border-opacity-70`]: color,
           'border-opacity-20': quantity === 0 || quantity === undefined || quantity === null,

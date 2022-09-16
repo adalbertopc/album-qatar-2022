@@ -52,9 +52,8 @@ export async function getGroupsWithTeamsAndUserStickers(userId: string) {
       },
     },
   })
-  return json(groups)
 
-  // count userStickers for the user and group
+  // select all userStickers for the user and group and team id
   const userStickers = await prisma.userSticker.findMany({
     where: {
       userId,
@@ -64,27 +63,29 @@ export async function getGroupsWithTeamsAndUserStickers(userId: string) {
         select: {
           team: {
             select: {
-              groupId: true,
+              id: true,
             },
           },
         },
       },
+      quantity: true,
     },
   })
-  // create a map of group ids and userSticker counts
-  const userStickerMap = userStickers.reduce((acc, cur) => {
-    const groupId = cur.sticker.team.groupId
-    const count = acc.get(groupId) || 0
-    acc.set(groupId, count + 1)
-    return acc
-  }, new Map<string, number>())
 
-  // add the userSticker count to the group
+  // map the userStickers to the group
   const groupsWithUserStickers = groups.map(group => {
-    const count = userStickerMap.get(group.id) || 0
+    const teams = group.teams.map(team => {
+      const stickers = userStickers.filter(userSticker => {
+        return userSticker.sticker.team?.id === team.id && userSticker.quantity > 0
+      }).length
+      return {
+        ...team,
+        stickers,
+      }
+    })
     return {
       ...group,
-      userStickerCount: count,
+      teams,
     }
   })
 

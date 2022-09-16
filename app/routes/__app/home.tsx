@@ -1,12 +1,11 @@
-import { json, LoaderFunction } from '@remix-run/node'
+import type { DataFunctionArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { Link, useLoaderData, useTransition } from '@remix-run/react'
-import clsx from 'clsx'
 import { getUser, requireUserId } from '~/services/auth.server'
 import { getGroupsWithTeamsAndUserStickers } from '~/services/group.server'
-import { colors } from '~/constants/colors'
+import { GroupCard } from '~/components'
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: DataFunctionArgs) {
   await requireUserId(request)
   const user = await getUser(request)
   if (!user) return redirect('/login')
@@ -14,8 +13,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   return groups
 }
 
+type LoaderType = typeof loader
+
 export default function Index() {
-  const groups = useLoaderData()
+  const groups = useLoaderData<LoaderType>()
 
   return (
     <div className="container mx-auto">
@@ -24,28 +25,17 @@ export default function Index() {
       <div className="grid gap-8 md:grid-cols-2">
         {groups.map(group => {
           return (
-            <div
+            <GroupCard
               key={group.id}
-              className={clsx(
-                {
-                  [colors.groups[group.name]]: true,
-                },
-                'rounded-xl p-4 text-white'
-              )}
-            >
-              <h3 className="mb-2 text-xl font-semibold">Grupo: {group.name}</h3>
-              <div className="grid gap-2 md:grid-cols-2">
-                {group.teams.map(team => {
-                  return (
-                    <Link key={team.id} to={`/team/${team.name}`}>
-                      <div className="cursor-pointer rounded-md border-2 border-opacity-50 p-2 tracking-wider shadow-lg transition-transform hover:scale-105">
-                        {team.name}
-                      </div>
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
+              name={group.name}
+              teams={group.teams.map(team => {
+                return {
+                  name: team.name,
+                  totalStickers: team._count.stickers,
+                  collectedStickers: team.stickers,
+                }
+              })}
+            />
           )
         })}
       </div>

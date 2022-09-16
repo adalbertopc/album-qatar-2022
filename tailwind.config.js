@@ -2,7 +2,11 @@
 module.exports = {
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        fluid: 'repeat(auto-fit, minmax(9rem, 1fr))',
+      },
+    },
   },
   plugins: [],
   safelist: [

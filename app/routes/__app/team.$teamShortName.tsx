@@ -52,7 +52,7 @@ export default function Slug() {
     <div>
       <h1 className="text-4xl font-semibold">Equipo {teamShortName}</h1>
       <Link to="/home">Back to collection</Link>
-      <div className="grid gap-4 md:grid-flow-col-dense">
+      <div className="gap-6 sm:grid sm:grid-cols-fluid">
         {stickers.map(sticker => {
           return (
             <Sticker

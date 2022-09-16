@@ -4,6 +4,7 @@ import { Link, useLoaderData, useTransition } from '@remix-run/react'
 import { getUser, requireUserId } from '~/services/auth.server'
 import { getGroupsWithTeamsAndUserStickers } from '~/services/group.server'
 import { GroupCard } from '~/components'
+import clsx from 'clsx'
 
 export async function loader({ request }: DataFunctionArgs) {
   await requireUserId(request)
@@ -20,8 +21,20 @@ export default function Index() {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-4xl font-semibold leading-tight ">Mi colección 📄</h1>
-      <h2 className="text-xl font-medium">Estampas obtenidas.</h2>
+      <div className="mb-4 text-white">
+        <h1 className="mb-4 font-display text-4xl font-bold leading-tight">Mi colección</h1>
+        <h2 className="text-lg font-medium">
+          Stickers obtenidos:{' '}
+          {groups.reduce((acc, group) => {
+            return (
+              acc +
+              group.teams.reduce((acc, team) => {
+                return acc + team.stickers
+              }, 0)
+            )
+          }, 0)}
+        </h2>
+      </div>
       <div className="grid gap-8 md:grid-cols-2">
         {groups.map(group => {
           return (
@@ -35,6 +48,7 @@ export default function Index() {
                   collectedStickers: team.stickers,
                 }
               })}
+              className={clsx({ 'order-first': group.name === 'FWC' })}
             />
           )
         })}

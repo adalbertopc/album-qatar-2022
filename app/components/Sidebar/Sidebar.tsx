@@ -17,9 +17,9 @@ export const Sidebar: React.FC = () => {
       <div className="flex justify-between bg-gradient-to-b from-gray-800  to-gray-900  text-gray-100 md:hidden">
         <Link
           to="/home"
-          className="absolute left-1/2 block -translate-x-1/2 p-4 font-bold text-white md:static"
+          className="absolute left-1/2 block -translate-x-1/2 p-4 font-display font-bold text-white md:static"
         >
-          Qatar
+          Qatar Album Tracker
         </Link>
         <button
           className="mobile-menu-button order-first p-4 focus:bg-gray-700 focus:outline-none"
@@ -42,7 +42,9 @@ export const Sidebar: React.FC = () => {
         ref={ref}
       >
         <Link to="/home" className="flex items-center space-x-2 px-4 text-white">
-          <span className="text-2xl font-extrabold">Qatar</span>
+          <span className="text-center font-display text-2xl font-extrabold leading-6">
+            Qatar album tracker
+          </span>
         </Link>
         <nav>
           <SidebarNavLink url="/home">Mi colección</SidebarNavLink>
@@ -52,7 +54,10 @@ export const Sidebar: React.FC = () => {
           </SidebarNavLink>
 
           <Form action="/logout" method="post" className="absolute bottom-4 left-4">
-            <Button type="submit" className="block rounded py-2.5 px-4 transition duration-200">
+            <Button
+              type="submit"
+              className="flex items-center gap-2 rounded py-2.5 px-4 transition duration-200"
+            >
               <ArrowLeftOnRectangleIcon className="h-4 w-4" />
               Logout
             </Button>

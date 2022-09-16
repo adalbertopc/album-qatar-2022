@@ -32,8 +32,10 @@ export default function Ranking() {
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
         <div className="mb-4 text-white">
-          <h1 className="text-4xl font-semibold leading-tight ">Ranking de usuarios 👑</h1>
-          <h2 className="text-xl font-medium">
+          <h1 className="mb-4 font-display text-4xl font-bold leading-tight">
+            Ranking de usuarios 👑
+          </h1>
+          <h2 className="text-lg font-medium">
             Lista con el top 25 de usuarios con más stickers únicos registrados en la plataforma.
           </h2>
         </div>

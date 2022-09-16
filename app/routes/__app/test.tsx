@@ -1,10 +1,11 @@
-import { json, LoaderFunction } from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { Sticker } from '~/components'
-import { countries } from '~/constants/countries'
+import { teamsData } from '~/constants/teams'
 
 export const loader: LoaderFunction = async () => {
-  return json(countries)
+  return json(teamsData)
 }
 
 export default function Test() {

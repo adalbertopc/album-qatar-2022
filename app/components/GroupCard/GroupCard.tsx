@@ -1,6 +1,5 @@
 import { Link } from '@remix-run/react'
-import clsx from 'clsx'
-import { countries } from '~/constants/countries'
+import { teamsData } from '~/constants/teams'
 
 interface GroupCardProps {
   name: string
@@ -9,12 +8,12 @@ interface GroupCardProps {
     totalStickers: number
     collectedStickers: number
   }[]
+  className?: string
 }
 
-export const GroupCard: React.FC<GroupCardProps> = ({ name, teams }) => {
+export const GroupCard: React.FC<GroupCardProps> = ({ name, teams, className }) => {
   return (
-    <div className="">
-      {/* Style group title */}
+    <div className={className}>
       <h3 className="mb-4 text-2xl font-semibold text-white">Grupo: {name}</h3>
       <div className="grid gap-8 md:grid-cols-2">
         {teams.map(team => {
@@ -25,7 +24,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ name, teams }) => {
                   <h3 className="text-lg font-bold">{team.name}</h3>
                   <img
                     src={`https://img.icons8.com/color/48/000000/${
-                      countries[team.name.toLowerCase()]?.name
+                      teamsData[team.name.toLowerCase()]?.name
                     }.png`}
                     alt={team.name}
                   />

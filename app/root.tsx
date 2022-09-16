@@ -4,7 +4,15 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@re
 import styles from './styles/app.css'
 
 export function links() {
-  return [{ rel: 'stylesheet', href: styles }]
+  return [
+    { rel: 'stylesheet', href: styles },
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'true' },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;900&display=swap',
+    },
+  ]
 }
 
 export const meta: MetaFunction = () => ({

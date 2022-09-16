@@ -1,7 +1,7 @@
 import { Form } from '@remix-run/react'
 import { DocumentIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
-import { countries } from '~/constants/countries'
+import { teamsData } from '~/constants/teams'
 
 interface StickerProps {
   id: string
@@ -22,8 +22,8 @@ export const Sticker: React.FC<StickerProps> = ({
   quantity,
   className,
 }) => {
-  const country: string = countries[team.toLowerCase()].name
-  const color = countries[team.toLowerCase()].colors[0]
+  const country: string = teamsData[team.toLowerCase()].name
+  const color = teamsData[team.toLowerCase()].colors[0]
   const textColor: string = color === 'white' ? 'text-black' : 'text-white'
   return (
     <div

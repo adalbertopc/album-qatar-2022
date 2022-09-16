@@ -2,6 +2,10 @@
 module.exports = {
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+      display: ['Nunito', 'sans-serif'],
+    },
     extend: {
       gridTemplateColumns: {
         fluid: 'repeat(auto-fit, minmax(9rem, 1fr))',

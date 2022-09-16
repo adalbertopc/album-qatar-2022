@@ -1,4 +1,4 @@
-export const countries = {
+export const teamsData = {
   qat: {
     name: 'qatar',
     colors: ['red', 'white'],

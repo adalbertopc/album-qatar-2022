@@ -81,6 +81,8 @@ export default function Register() {
           placeholder="Escribe tu nombre"
           className="mb-4"
           error={errors?.error?.username}
+          min={2}
+          max={20}
         />
         <Input
           label="Nombre de usuario"
@@ -88,10 +90,12 @@ export default function Register() {
           placeholder="Escribe tu nombre de usuario"
           className="mb-4"
           error={errors?.error?.username}
+          min={2}
+          max={20}
         />
         <Select
           options={Object.keys(teamsData).map(team => ({
-            value: team,
+            value: team.toUpperCase(),
             label: teamsData[team].name.replace('-', ' '),
           }))}
           label="Equipo Favorito del mundial"
@@ -111,7 +115,7 @@ export default function Register() {
           label="Confirma tu contraseña"
           name="confirm_password"
           type="password"
-          placeholder="Escribe tu contraseña"
+          placeholder="Vuelve a escribir tu contraseña"
           className="mb-6"
           error={errors?.error?.password}
         />

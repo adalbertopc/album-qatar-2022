@@ -8,6 +8,9 @@ interface InputProps {
   required?: boolean
   className?: string
   error?: string
+  min?: number
+  max?: number
+  defaultValue?: string
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -18,6 +21,9 @@ export const Input: React.FC<InputProps> = ({
   required,
   className,
   error,
+  min,
+  max,
+  defaultValue,
 }) => {
   return (
     <label className={clsx(className, 'flex flex-col')}>
@@ -28,6 +34,9 @@ export const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         required={required}
         className="rounded-lg bg-gray-800 p-2 placeholder:text-sm"
+        min={min}
+        max={max}
+        defaultValue={defaultValue}
       />
       {error && <span className="mt-1 text-xs text-red-500">{error}</span>}
     </label>

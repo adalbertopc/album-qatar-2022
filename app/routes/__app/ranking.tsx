@@ -1,19 +1,12 @@
-import type { DataFunctionArgs, MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { getUser } from '~/services/auth.server'
 import { getUsersWithMostUniqueStickers } from '~/services/user.server'
 
-export async function loader({ request }: DataFunctionArgs) {
-  const user = await getUser(request)
+import { getFlagUrl } from '~/utils/getFlagUrl'
 
-  if (!user) {
-    return redirect('/login')
-  }
-
+export async function loader() {
   const users = await getUsersWithMostUniqueStickers()
-
   return json(users)
 }
 
@@ -39,7 +32,7 @@ export default function Ranking() {
             Lista con el top 25 de usuarios con más stickers únicos registrados en la plataforma.
           </h2>
         </div>
-        <div className="-mx-4 overflow-x-auto px-4 py-4 sm:-mx-8 sm:px-8">
+        <div className="-mx-4 max-w-3xl overflow-x-auto px-4 py-4 sm:-mx-8 sm:px-8">
           <div className="inline-block min-w-full overflow-hidden rounded-lg shadow-md">
             <table className="min-w-full leading-normal">
               <thead>
@@ -49,6 +42,9 @@ export default function Ranking() {
                   </th>
                   <th className="bg-slate-700 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
                     Usuario
+                  </th>
+                  <th className="bg-slate-700 px-5 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white">
+                    Equipo favorito
                   </th>
                   <th className="bg-slate-700 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-white">
                     Total
@@ -60,6 +56,15 @@ export default function Ranking() {
                   <tr key={user.username} className="bg-slate-800 text-white">
                     <td className="px-5 py-5 text-sm">{index + 1}</td>
                     <td className="px-5 py-5 text-sm">{user.username}</td>
+                    <td className="flex items-center justify-center px-5 py-5 text-center">
+                      {user.favoriteTeam && (
+                        <img
+                          className="h-8 w-8"
+                          src={getFlagUrl(user.favoriteTeam)}
+                          alt={user.favoriteTeam}
+                        />
+                      )}
+                    </td>
                     <td className="px-5 py-5 text-sm">{user.uniqueStickers}</td>
                   </tr>
                 ))}

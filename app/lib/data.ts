@@ -35,6 +35,10 @@ export const data = [
     name: 'h',
     items: ['por', 'gha', 'uru', 'kor'],
   },
+  {
+    name: 'special',
+    items: ['fwc'],
+  },
 ]
 
 export const countries = [

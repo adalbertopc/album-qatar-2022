@@ -1,37 +1,38 @@
 import type { DataFunctionArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, Outlet, useLoaderData, useMatches } from '@remix-run/react'
 import { Sticker } from '~/components'
-import { getUser } from '~/services/auth.server'
+import { useUser } from '~/hooks/useUser'
+import { getUser, requireUserId } from '~/services/auth.server'
 import { getUserLastStickers } from '~/services/user.server'
 
 export async function loader({ request }: DataFunctionArgs) {
-  const user = await getUser(request)
-
-  if (!user) {
-    return redirect('/login')
-  }
-
-  const stickers = await getUserLastStickers(user.id)
-
-  return json({
-    stickers,
-    user,
-  })
+  // const stickers = await getUserLastStickers(await requireUserId(request))
+  // return json(stickers)
+  return json('hola')
 }
 
 type LoaderData = typeof loader
 
 export default function Profile() {
-  const { stickers, user } = useLoaderData<LoaderData>()
-  console.log(stickers, user)
+  // const stickers = useLoaderData<LoaderData>()
+  const user = useUser()
+  console.log('user', user)
   return (
     <div className="container mx-auto px-4 sm:px-8">
-      <div className="py-8">
+      <h1 className="text-2xl text-white">{user.username}</h1>
+      <h1 className="text-white">{user.favoriteTeam}</h1>
+      <Link replace to="/profile/edit">
+        Edit
+      </Link>
+      {/* <div className="py-8">
         <div className="mb-4 text-white">
           <h1 className="mb-4 font-display text-4xl font-bold leading-tight">Mi Perfil</h1>
           <h2>Usuario: {user.username}</h2>
+          <Link replace to="/profile/edit">
+            Edit
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -66,7 +67,8 @@ export default function Profile() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+      <Outlet />
     </div>
   )
 }

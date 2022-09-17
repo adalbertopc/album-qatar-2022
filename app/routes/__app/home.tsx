@@ -1,16 +1,12 @@
 import type { DataFunctionArgs } from '@remix-run/node'
-import { redirect } from '@remix-run/node'
-import { Link, useLoaderData, useTransition } from '@remix-run/react'
-import { getUser, requireUserId } from '~/services/auth.server'
+import { useLoaderData } from '@remix-run/react'
+import { requireUserId } from '~/services/auth.server'
 import { getGroupsWithTeamsAndUserStickers } from '~/services/group.server'
 import { GroupCard } from '~/components'
 import clsx from 'clsx'
 
 export async function loader({ request }: DataFunctionArgs) {
-  await requireUserId(request)
-  const user = await getUser(request)
-  if (!user) return redirect('/login')
-  const groups = await getGroupsWithTeamsAndUserStickers(user.id)
+  const groups = await getGroupsWithTeamsAndUserStickers(await requireUserId(request))
   return groups
 }
 

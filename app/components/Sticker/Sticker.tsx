@@ -2,6 +2,7 @@ import { Form } from '@remix-run/react'
 import { DocumentIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import { teamsData } from '~/constants/teams'
+import { getFlagUrl } from '~/utils/getFlagUrl'
 
 interface StickerProps {
   id: string
@@ -22,7 +23,6 @@ export const Sticker: React.FC<StickerProps> = ({
   quantity,
   className,
 }) => {
-  const country: string = teamsData[team.toLowerCase()].name
   const color = teamsData[team.toLowerCase()].colors[0]
   const textColor: string = color === 'white' ? 'text-black' : 'text-white'
   return (
@@ -42,8 +42,8 @@ export const Sticker: React.FC<StickerProps> = ({
         )}
       >
         <img
-          src={`https://img.icons8.com/color/48/000000/${country}.png`}
-          alt={country}
+          src={getFlagUrl(team)}
+          alt={team}
           className="absolute left-1/2 top-1 h-8 w-8 -translate-x-1/2 object-contain drop-shadow-lg"
         />
         <div className={clsx('z-20 text-center', textColor)}>

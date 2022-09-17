@@ -23,8 +23,7 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       className={clsx(
         className,
-        'rounded-lg bg-gradient-to-bl from-cyan-500 via-blue-500 to-purple-500 px-4 py-3 font-medium text-white transition-all hover:brightness-125',
-        // bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+        'rounded-lg px-4 py-3 font-medium text-white transition-all hover:brightness-125',
         {
           'bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500': variant === 'primary',
           'bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500': variant === 'secondary',

@@ -1,10 +1,6 @@
 import { useRef, useState } from 'react'
 import { Form, Link, NavLink } from '@remix-run/react'
-import {
-  Bars3BottomRightIcon,
-  ArrowLeftOnRectangleIcon,
-  Bars3BottomLeftIcon,
-} from '@heroicons/react/20/solid'
+import { ArrowLeftOnRectangleIcon, Bars3BottomLeftIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import { Button } from '~/components'
 import { useClickOutside } from '~/hooks/useClickOutside'
@@ -71,6 +67,7 @@ export const Sidebar: React.FC = () => {
               type="submit"
               className="flex w-full items-center gap-2 rounded py-2.5 px-4 transition-all duration-200 hover:-translate-y-1"
               size="full"
+              variant="secondary"
             >
               <ArrowLeftOnRectangleIcon className="h-5 w-5 stroke-2" />
               Logout
@@ -98,7 +95,6 @@ export const SidebarNavLink: React.FC<SidebarNavLinkProps> = ({ url, children })
       )
     }
   >
-    {/* from-blue-900 via-blue-700 to-blue-900  hover:bg-gradient-to-r*/}
     {children}
   </NavLink>
 )

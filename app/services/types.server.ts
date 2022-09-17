@@ -19,3 +19,9 @@ export type TeamForm = {
   name: string
   groupId: string
 }
+
+export type EditUserForm = {
+  userId: string
+  username?: string
+  favoriteTeam: string
+}

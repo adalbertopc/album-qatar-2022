@@ -15,7 +15,6 @@ export const action: ActionFunction = async ({ request }) => {
   const username = String(formData.get('username'))
   const team = String(formData.get('team'))
 
-  // validate username no special characters
   const regex = /^[a-zA-Z0-9]+$/
   if (!regex.test(username)) {
     return json({
@@ -44,7 +43,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Registrarse',
+    title: 'Editar perfil',
   }
 }
 
@@ -62,25 +61,23 @@ export default function EditUser() {
   return (
     <div className="h-modal fixed top-0 right-0 left-0 z-50 flex w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-900 bg-opacity-90 md:inset-0 md:h-full">
       <div ref={ref} className="relative h-full w-full max-w-md p-4 md:h-auto">
-        <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
+        <div className="relative rounded-lg bg-gray-700 shadow">
           <Link
             to=".."
-            className="absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
+            className="absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent bg-gray-800 p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
           >
             <XMarkIcon className="h-5 w-5" />
             <span className="sr-only">Close modal</span>
           </Link>
           <div className="py-6 px-6 lg:px-8">
-            <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-              Editar perfil
-            </h3>
+            <h3 className="mb-4 text-xl font-medium text-white">Editar perfil</h3>
             <Form method="post" className="flex w-full flex-col">
               <input type="hidden" name="userId" value={user.id} />
               <Input
                 label="Nombre de usuario"
                 name="username"
                 placeholder="Escribe tu nombre de usuario"
-                className="mb-4"
+                className="mb-4 text-white"
                 error={errors?.error?.username}
                 min={2}
                 max={20}

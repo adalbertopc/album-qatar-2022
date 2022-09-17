@@ -29,6 +29,8 @@ export default function Test() {
             name="Lionel Messi"
             showButtons
             quantity={0}
+            variant="small"
+            obtained={true}
           />
         )
       })}

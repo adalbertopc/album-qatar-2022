@@ -55,6 +55,7 @@ export const Sidebar: React.FC = () => {
           <div className="grid gap-2">
             <SidebarNavLink url="/home">Mi colección</SidebarNavLink>
             <SidebarNavLink url="/profile">Mi perfil</SidebarNavLink>
+            <SidebarNavLink url="/repeated">Repetidos</SidebarNavLink>
             <SidebarNavLink url="/ranking">Ranking</SidebarNavLink>
             <SidebarNavLink url="/following">
               Seguidos <span className="text-xs font-light">(Proximamente)</span>

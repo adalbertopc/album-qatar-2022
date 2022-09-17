@@ -1,7 +1,7 @@
-import { Link, useLoaderData, useParams } from '@remix-run/react'
-import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { useLoaderData } from '@remix-run/react'
+import type { ActionFunction, DataFunctionArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
-import { getUser } from '~/services/auth.server'
+import { requireUserId } from '~/services/auth.server'
 
 import { isValidCollection } from '~/utils/isValidCollection'
 import {
@@ -10,56 +10,61 @@ import {
   sumOneToUserSticker,
 } from '~/services/sticker.server'
 import { Sticker } from '~/components'
+import { getFlagUrl } from '~/utils/getFlagUrl'
 
-export const loader: LoaderFunction = async ({ request, params }) => {
-  const user = await getUser(request)
-
-  if (!user) {
-    return redirect('/login')
-  }
+export async function loader({ request, params }: DataFunctionArgs) {
   const teamShortName = params.teamShortName
   const isValid = isValidCollection(teamShortName)
   if (!isValid) {
     return redirect('/home')
   }
 
-  const stickers = await getStickersByTeamNameAndUserId(teamShortName, user.id)
+  const stickers = await getStickersByTeamNameAndUserId(teamShortName, await requireUserId(request))
   return stickers
 }
 
+type LoaderData = typeof loader
+
 export const action: ActionFunction = async ({ request }) => {
-  const user = await getUser(request)
-  if (!user) {
-    return redirect('/login')
-  }
   const formData = await request.formData()
   const values = Object.fromEntries(formData)
+  const userId = await requireUserId(request)
 
   if (values._action === 'add') {
-    return await sumOneToUserSticker(user.id, values.sticker_id)
+    return await sumOneToUserSticker(userId, values.sticker_id)
   }
 
   if (values._action === 'remove') {
-    return await subtractOneToUserSticker(user.id, values.sticker_id)
+    return await subtractOneToUserSticker(userId, values.sticker_id)
   }
 }
 
 export default function Slug() {
-  const { teamShortName } = useParams()
-  const stickers = useLoaderData()
+  const { stickers, teamTotal } = useLoaderData<LoaderData>()
 
   return (
     <div>
-      <h1 className="text-4xl font-semibold">Equipo {teamShortName}</h1>
-      <Link to="/home">Back to collection</Link>
-      <div className="gap-6 sm:grid sm:grid-cols-fluid">
+      <div className="mb-4 text-white">
+        <h1 className="mt-5 mb-2 flex items-center gap-2 font-display text-3xl font-bold leading-tight md:text-4xl">
+          Colección {stickers[0]?.team?.name}{' '}
+          {getFlagUrl(stickers[0].team.name) !== '' && (
+            <img src={getFlagUrl(stickers[0].team.name)} alt={stickers[0].team.name} />
+          )}
+        </h1>
+        <h2 className="mt-4 flex items-center gap-4 text-3xl font-medium">
+          Stickers obtenidos: {stickers.filter(sticker => sticker.quantity > 0).length} de{' '}
+          {teamTotal}
+        </h2>
+      </div>
+      <hr className="border-t-2 border-dotted border-slate-700" />
+      <div className="mt-4 gap-6 sm:grid sm:grid-cols-fluid">
         {stickers.map(sticker => {
           return (
             <Sticker
               key={sticker.id}
               id={sticker.id}
               name={sticker.name}
-              team={teamShortName}
+              team={sticker.team.name}
               quantity={sticker.quantity}
               number={sticker.number}
               showButtons

@@ -1,73 +1,64 @@
+import { PencilSquareIcon } from '@heroicons/react/20/solid'
 import type { DataFunctionArgs } from '@remix-run/node'
-import { redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { Link, Outlet, useLoaderData, useMatches } from '@remix-run/react'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { Sticker } from '~/components'
 import { useUser } from '~/hooks/useUser'
-import { getUser, requireUserId } from '~/services/auth.server'
+import { requireUserId } from '~/services/auth.server'
 import { getUserLastStickers } from '~/services/user.server'
+import { getFlagUrl } from '~/utils/getFlagUrl'
 
 export async function loader({ request }: DataFunctionArgs) {
-  // const stickers = await getUserLastStickers(await requireUserId(request))
-  // return json(stickers)
-  return json('hola')
+  const stickers = await getUserLastStickers(await requireUserId(request))
+  return json(stickers)
 }
 
 type LoaderData = typeof loader
 
 export default function Profile() {
-  // const stickers = useLoaderData<LoaderData>()
+  const stickers = useLoaderData<LoaderData>()
   const user = useUser()
-  console.log('user', user)
   return (
-    <div className="container mx-auto px-4 sm:px-8">
-      <h1 className="text-2xl text-white">{user.username}</h1>
-      <h1 className="text-white">{user.favoriteTeam}</h1>
-      <Link replace to="/profile/edit">
-        Edit
-      </Link>
-      {/* <div className="py-8">
+    <div className="">
+      <div className="container mx-auto">
         <div className="mb-4 text-white">
-          <h1 className="mb-4 font-display text-4xl font-bold leading-tight">Mi Perfil</h1>
-          <h2>Usuario: {user.username}</h2>
-          <Link replace to="/profile/edit">
-            Edit
-          </Link>
+          <h1 className="mt-5 mb-2 font-display text-3xl font-bold leading-tight sm:text-5xl">
+            Perfil
+          </h1>
+          <h2 className="mt-4 flex items-center gap-4 text-3xl font-medium">
+            {user?.favoriteTeam && (
+              <img src={getFlagUrl(user.favoriteTeam)} alt={user.favoriteTeam} />
+            )}
+            {user?.username}
+            <Link to="/profile/edit" className="flex items-center gap-2 text-sm">
+              <PencilSquareIcon className="w-4" /> Editar
+            </Link>
+          </h2>
         </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-lg bg-slate-800 p-4">
-            <h3 className="mb-4 font-display text-2xl font-bold leading-tight">
-              Stickers recientes
-            </h3>
-            <div className="grid grid-cols-fluid">
-              {stickers.map(({ addedAt, sticker }) => {
-                return (
-                  <Sticker
-                    key={sticker.id}
-                    id={sticker.id}
-                    team={sticker.team?.name}
-                    name={sticker.name}
-                    number={sticker.number}
-                  />
-                )
-              })}
-            </div>
-          </div>
-          <div className="rounded-lg bg-slate-800 p-4">
-            <h3 className="mb-4 font-display text-2xl font-bold leading-tight">Estadísticas</h3>
-            <div className="grid grid-cols-fluid">
-              <div className="text-white">
-                <h4 className="mb-4 font-display text-2xl font-bold leading-tight">
-                  Total de stickers
-                </h4>
-                <p>Stickers obtenidos: 0</p>
-                <p>Stickers faltantes: 0</p>
+        <hr className="border-t-2 border-dotted border-slate-700" />
+        <h3 className="my-4 text-lg text-white">Últimos stickers obtenidos</h3>
+        <div className="grid gap-4 md:grid-cols-fluid">
+          {stickers.map(sticker => {
+            return (
+              <div key={sticker.stickerId}>
+                <Sticker
+                  id={sticker.stickerId}
+                  showButtons={false}
+                  number={sticker.sticker.number}
+                  name={sticker.sticker.name}
+                  team={sticker.sticker.team?.name}
+                  variant="small"
+                  quantity={sticker.quantity}
+                />
+                <p className="text-center text-sm text-gray-300">
+                  {' '}
+                  {new Date(sticker.addedAt).toLocaleDateString()}
+                </p>
               </div>
-            </div>
-          </div>
+            )
+          })}
         </div>
-      </div> */}
+      </div>
       <Outlet />
     </div>
   )

@@ -12,6 +12,7 @@ interface StickerProps {
   name?: string
   showButtons?: boolean
   className?: string
+  variant?: 'small' | 'large'
 }
 
 export const Sticker: React.FC<StickerProps> = ({
@@ -22,6 +23,7 @@ export const Sticker: React.FC<StickerProps> = ({
   showButtons,
   quantity,
   className,
+  variant = 'large',
 }) => {
   const color = teamsData[team.toLowerCase()].colors[0]
   const textColor: string = color === 'white' ? 'text-black' : 'text-white'
@@ -33,6 +35,8 @@ export const Sticker: React.FC<StickerProps> = ({
         {
           [`border-${color}-500 border-4 border-opacity-70`]: color,
           'border-opacity-20': quantity === 0 || quantity === undefined || quantity === null,
+          'h-52 w-40': variant === 'large',
+          'h-36 w-28': variant === 'small',
         }
       )}
     >
@@ -46,16 +50,22 @@ export const Sticker: React.FC<StickerProps> = ({
           alt={team}
           className="absolute left-1/2 top-1 h-8 w-8 -translate-x-1/2 object-contain drop-shadow-lg"
         />
-        <div className={clsx('z-20 text-center', textColor)}>
-          <div className="flex items-center justify-center">
-            <DocumentIcon className="h-3 w-3 text-white" />
-            <span className="text-xs font-medium text-white">{quantity}</span>
-          </div>
+        <div
+          className={clsx('z-20 text-center', textColor, {
+            'mt-8': variant === 'small',
+          })}
+        >
+          {variant === 'large' && (
+            <div className="flex items-center justify-center">
+              <DocumentIcon className="h-3 w-3 text-white" />
+              <span className="text-xs font-medium text-white">{quantity}</span>
+            </div>
+          )}
           <span className="block text-xl font-bold drop-shadow-md">{team}</span>
           <span className="mt-1 block text-3xl font-bold drop-shadow-md">{number}</span>
           <span className="mt-2 block text-sm font-medium">{name}</span>
         </div>
-        {showButtons && (
+        {showButtons && variant === 'large' && (
           <div className="absolute left-1/2 bottom-2 flex -translate-x-1/2 items-center justify-center gap-4 md:hidden md:group-hover:flex">
             <Form method="post">
               <input type="hidden" name="sticker_id" value={id} />

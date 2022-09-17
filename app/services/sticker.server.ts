@@ -88,6 +88,7 @@ export async function getStickersByTeamName(teamName: string) {
   return stickers
 }
 
+// TODO: I think this request can be optimized
 export async function getStickersByTeamNameAndUserId(teamName: string, userId: string) {
   const teamStickers = await getStickersByTeamName(teamName)
   const userStickers = await getStickersByUserId(userId)
@@ -100,7 +101,10 @@ export async function getStickersByTeamNameAndUserId(teamName: string, userId: s
     }
   })
 
-  return json(stickers)
+  return json({
+    stickers,
+    teamTotal: teamStickers.length,
+  })
 }
 
 export async function sumOneToUserSticker(userId: string, stickerId: string) {

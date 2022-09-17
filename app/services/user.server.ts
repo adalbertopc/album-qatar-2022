@@ -117,3 +117,36 @@ export const getUserLastStickers = async (userId: string) => {
 
   return stickers
 }
+
+export const getUserRepeatedStickers = async (userId: string) => {
+  const stickers = await prisma.userSticker.findMany({
+    where: {
+      userId,
+      quantity: {
+        gt: 1,
+      },
+    },
+    select: {
+      stickerId: true,
+      quantity: true,
+      sticker: {
+        select: {
+          id: true,
+          name: true,
+          number: true,
+          team: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      quantity: 'desc',
+    },
+  })
+
+  return stickers
+}

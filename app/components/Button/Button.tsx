@@ -25,8 +25,8 @@ export const Button: React.FC<ButtonProps> = ({
         className,
         'rounded-lg px-4 py-3 font-medium text-white transition-all hover:brightness-125',
         {
-          'bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500': variant === 'primary',
-          'bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500': variant === 'secondary',
+          'bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500': variant === 'primary',
+          'bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500': variant === 'secondary',
           'px-4 py-3 text-sm': size === 'sm',
           'px-6 py-4 text-base': size === 'md',
           'px-8 py-5 text-lg': size === 'lg',

@@ -1,11 +1,10 @@
 import type { DataFunctionArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
-import { Outlet } from '@remix-run/react'
+import { Link, Outlet } from '@remix-run/react'
 import { Sidebar } from '~/components'
 import { getUser, requireUserId } from '~/services/auth.server'
 
 export async function loader({ request }: DataFunctionArgs) {
-  await requireUserId(request)
   const user = await getUser(request)
   if (!user) return redirect('/login')
   return user
@@ -28,9 +27,12 @@ export default function PrivateApp() {
 
 export function ErrorBoundary({ error }) {
   return (
-    <div>
-      <h2>An Error Occurred</h2>
-      <p>There was a {error.message}</p>
+    <div className="text-center text-white">
+      <h1 className="text-5xl">An Error Occurred</h1>
+      <p className="text-2xl">There was a {error.message}</p>
+      <p className="text-xl">
+        <Link to="/">Go Home</Link>
+      </p>
     </div>
   )
 }

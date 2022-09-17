@@ -2,7 +2,6 @@ import type { MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { getUsersWithMostUniqueStickers } from '~/services/user.server'
-
 import { getFlagUrl } from '~/utils/getFlagUrl'
 
 export async function loader() {

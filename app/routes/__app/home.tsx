@@ -22,7 +22,9 @@ export default function Index() {
   return (
     <div className="container mx-auto">
       <div className="mb-4 text-white">
-        <h1 className="mb-4 font-display text-4xl font-bold leading-tight">Mi colección</h1>
+        <h1 className="mt-5 mb-2 font-display text-3xl font-bold leading-tight sm:text-5xl">
+          Mi colección
+        </h1>
         <h2 className="text-lg font-medium">
           Stickers obtenidos:{' '}
           {groups.reduce((acc, group) => {
@@ -35,7 +37,8 @@ export default function Index() {
           }, 0)}
         </h2>
       </div>
-      <div className="grid gap-8 md:grid-cols-2">
+      <hr className="border-t-2 border-dotted border-slate-700" />
+      <div className="mt-4 grid gap-8 lg:grid-cols-2">
         {groups.map(group => {
           return (
             <GroupCard
@@ -48,7 +51,9 @@ export default function Index() {
                   collectedStickers: team.stickers,
                 }
               })}
-              className={clsx({ 'order-first': group.name === 'FWC' })}
+              className={clsx({
+                'order-last': group.name === 'SPECIAL',
+              })}
             />
           )
         })}

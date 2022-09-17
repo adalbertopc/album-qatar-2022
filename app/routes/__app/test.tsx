@@ -1,7 +1,7 @@
 import type { LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { Sticker } from '~/components'
+import { Sticker, TeamCard } from '~/components'
 import { teamsData } from '~/constants/teams'
 
 export const loader: LoaderFunction = async () => {
@@ -13,6 +13,12 @@ export default function Test() {
 
   return (
     <>
+      <div className="grid w-[600px] grid-cols-2 gap-2">
+        <TeamCard name="ARG" totalStickers={20} collectedStickers={10} />
+        <TeamCard name="ARG" totalStickers={20} collectedStickers={10} />
+        <TeamCard name="ARG" totalStickers={20} collectedStickers={10} />
+        <TeamCard name="ARG" totalStickers={20} collectedStickers={10} />
+      </div>
       {Object.keys(data).map((country, index) => {
         return (
           <Sticker

@@ -14,6 +14,7 @@ model User {
   name      String?
   stickers  UserSticker[]
   createdAt DateTime      @default(now())
+  favoriteTeam String?
 }
 
 model Sticker {

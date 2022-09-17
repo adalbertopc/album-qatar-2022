@@ -53,3 +53,35 @@ export const getUsersWithMostUniqueStickers = async () => {
 
   return usersWithNames
 }
+
+export const getUserLastStickers = async (userId: string) => {
+  const stickers = await prisma.userSticker.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      stickerId: true,
+      quantity: true,
+      addedAt: true,
+      sticker: {
+        select: {
+          id: true,
+          name: true,
+          number: true,
+          team: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+    take: 10,
+  })
+
+  return stickers
+}

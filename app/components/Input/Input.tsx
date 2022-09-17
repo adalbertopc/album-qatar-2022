@@ -21,7 +21,7 @@ export const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <label className={clsx(className, 'flex flex-col')}>
-      <span className="mb-2 text-sm font-medium">{label}</span>
+      <span className="mb-2 text-sm font-medium text-gray-400">{label}</span>
       <input
         type={type}
         name={name}

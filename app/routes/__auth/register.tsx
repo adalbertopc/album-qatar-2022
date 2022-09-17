@@ -1,7 +1,8 @@
 import type { ActionFunction, MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
-import { Button, Input } from '~/components'
+import { Button, Input, Select } from '~/components'
+import { teamsData } from '~/constants/teams'
 import { register } from '~/services/auth.server'
 
 export const action: ActionFunction = async ({ request }) => {
@@ -54,7 +55,7 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
-  return await register({ username, name, password })
+  return await register({ username: username.toLowerCase(), name, password })
 }
 
 export const meta: MetaFunction = () => {
@@ -87,6 +88,16 @@ export default function Register() {
           placeholder="Escribe tu nombre de usuario"
           className="mb-4"
           error={errors?.error?.username}
+        />
+        <Select
+          options={Object.keys(teamsData).map(team => ({
+            value: team,
+            label: teamsData[team].name.replace('-', ' '),
+          }))}
+          label="Equipo Favorito del mundial"
+          firstOption="Selecciona tu equipo favorito"
+          name="team"
+          className="mb-4"
         />
         <Input
           label="Contraseña"

@@ -30,7 +30,7 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
-  return await login({ username, password })
+  return await login({ username: username.toLowerCase(), password })
 }
 export const meta: MetaFunction = () => {
   return {

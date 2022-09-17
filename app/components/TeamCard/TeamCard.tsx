@@ -32,7 +32,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
             <p className="text-lg font-medium">{totalStickers}</p>
           </div>
         </div>
-        <div className="grid h-full place-items-center">
+        <div className="flex h-full items-center justify-center">
           {!special && <img src={getFlagUrl(name)} alt={name} className="w-16 drop-shadow-lg" />}
         </div>
       </article>

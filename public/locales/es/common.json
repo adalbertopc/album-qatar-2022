@@ -1,0 +1,23 @@
+{
+  "register": "Regístrate",
+  "made_with_love": "Hecho con 🧡 por",
+  "see_code": "Ver código fuente",
+  "subheading": "Comienza a registrar tus stickers del album Panini Copa Mundial de la FIFA Qatar 2022",
+  "credits": "Créditos",
+  "login": "Inicia sesión",
+  "my_collection": "Mi colección",
+  "username": "Nombre de usuario",
+  "username_placeholder": "Escribe tu nombre de usuario",
+  "password": "Contraseña",
+  "password_placeholder": "Escribe tu contraseña",
+  "password_confirmation": "Confirmar contraseña",
+  "password_confirmation_placeholder": "Vuelve a escribir tu contraseña",
+  "login_button": "Iniciar sesión",
+  "dont_have_account": "¿No tienes cuenta?",
+  "have_account": "¿Ya tienes cuenta?",
+  "world_cup_favorite_team": "Equipo favorito del mundial",
+  "world_cup_favorite_team_placeholder": "Selecciona tu equipo favorito del mundial",
+  "language": "Idioma",
+  "spanish": "Español",
+  "english": "Inglés"
+}

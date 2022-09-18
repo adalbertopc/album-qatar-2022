@@ -1,8 +1,8 @@
 import type { ActionFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
 import { json, redirect } from '@remix-run/node'
 import { Form, Link, useActionData } from '@remix-run/react'
+import { useTranslation } from 'react-i18next'
 import { Button, Input } from '~/components'
-
 import { login, getUser } from '~/services/auth.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -39,6 +39,8 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Login() {
+  let { t } = useTranslation()
+
   const errors = useActionData()
   return (
     <div className="mt-20 flex h-full flex-col items-center justify-center gap-4 text-white">
@@ -48,9 +50,9 @@ export default function Login() {
         className="flex w-full max-w-md flex-col rounded-2xl border border-gray-300 p-10"
       >
         <Input
-          label="Nombre de usuario"
+          label={t('username')}
           name="username"
-          placeholder="Escribe tu nombre de usuario"
+          placeholder={t('username_placeholder')}
           className="mb-4"
           error={errors?.error?.username}
         />

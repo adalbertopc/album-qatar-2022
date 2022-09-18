@@ -3,7 +3,7 @@ import { Header } from '~/components'
 
 export default function Auth() {
   return (
-    <div className="">
+    <div>
       <Header />
       <Outlet />
     </div>

@@ -26,6 +26,7 @@ export const meta: MetaFunction = () => ({
   description:
     'Lleva un registro de tu álbum de stickers de la Copa Mundial de la FIFA Qatar 2022™',
   viewport: 'width=device-width,initial-scale=1',
+  'og:image': '/assets/img/og.png',
 })
 
 export default function App() {

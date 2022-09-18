@@ -32,7 +32,7 @@ export const Sidebar: React.FC = () => {
         className={clsx(
           `spb-2 fixed top-0 left-0 z-50 h-screen w-64 
           transform flex-col 
-          justify-between space-y-6
+          justify-between
           bg-slate-800 px-2 pt-7 pb-2
           text-blue-100 shadow-lg
           transition duration-200 ease-in-out
@@ -43,7 +43,7 @@ export const Sidebar: React.FC = () => {
         )}
         ref={ref}
       >
-        <Link to="/home" className="flex items-center space-x-2 px-4 text-white">
+        <Link to="/home" className="mb-6 flex items-center px-4 text-white">
           <img
             src="/assets/img/world-cup-text-logo.svg"
             alt="Fifa World Cup Logo"
@@ -57,12 +57,12 @@ export const Sidebar: React.FC = () => {
             <SidebarNavLink url="/profile">Mi perfil</SidebarNavLink>
             <SidebarNavLink url="/repeated">Repetidos</SidebarNavLink>
             <SidebarNavLink url="/ranking">Ranking</SidebarNavLink>
-            <SidebarNavLink url="/following">
+            <div className="rounded py-2.5 pr-4 pl-4 transition-all duration-200 hover:bg-blue-500 hover:pl-6 hover:text-white">
               Seguidos <span className="text-xs font-light">(Proximamente)</span>
-            </SidebarNavLink>
+            </div>
           </div>
         </nav>
-        <div>
+        <div className="absolute bottom-4 w-60 md:static  md:w-full">
           <Form action="/logout" method="post" className="w-full p-2">
             <Button
               type="submit"

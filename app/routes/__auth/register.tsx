@@ -1,10 +1,14 @@
-import type { ActionFunction, MetaFunction } from '@remix-run/node'
+import type { ActionFunction, LoaderFunction, MetaFunction } from '@remix-run/node'
+import { redirect } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form, Link, useActionData, useTransition } from '@remix-run/react'
 import { Button, Input, Select } from '~/components'
 import { teamsData } from '~/constants/teams'
-import { register } from '~/services/auth.server'
+import { getUser, register } from '~/services/auth.server'
 
+export const loader: LoaderFunction = async ({ request }) => {
+  return (await getUser(request)) ? redirect('/home') : null
+}
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const username = String(formData.get('username'))
@@ -60,7 +64,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Registrarse',
+    title: 'Regístrate',
   }
 }
 

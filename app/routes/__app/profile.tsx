@@ -1,5 +1,5 @@
 import { PencilSquareIcon } from '@heroicons/react/20/solid'
-import type { DataFunctionArgs } from '@remix-run/node'
+import type { DataFunctionArgs, MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { Sticker } from '~/components'
@@ -14,6 +14,10 @@ export async function loader({ request }: DataFunctionArgs) {
 }
 
 type LoaderData = typeof loader
+
+export const meta: MetaFunction = () => ({
+  title: 'Mi perfil',
+})
 
 export default function Profile() {
   const stickers = useLoaderData<LoaderData>()
@@ -37,7 +41,7 @@ export default function Profile() {
         </div>
         <hr className="border-t-2 border-dotted border-slate-700" />
         <h3 className="my-4 text-lg text-white">Últimos stickers obtenidos</h3>
-        <div className="grid gap-4 md:grid-cols-fluid">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-fluid">
           {stickers.map(sticker => {
             return (
               <div key={sticker.stickerId}>

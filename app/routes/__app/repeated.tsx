@@ -1,4 +1,4 @@
-import type { ActionFunction, DataFunctionArgs } from '@remix-run/node'
+import type { ActionFunction, DataFunctionArgs, MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { Sticker } from '~/components'
@@ -12,6 +12,10 @@ export async function loader({ request }: DataFunctionArgs) {
 }
 
 type LoaderData = typeof loader
+
+export const meta: MetaFunction = () => ({
+  title: 'Stickers repetidos',
+})
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()

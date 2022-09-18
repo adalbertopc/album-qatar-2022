@@ -3,11 +3,11 @@ import { Header } from '~/components'
 
 export default function Index() {
   return (
-    <div>
+    <div className="mx-auto max-w-5xl">
       <Header />
-      <section className="relative text-center">
-        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
-          <div className="mx-auto flex max-w-3xl flex-col">
+      <section className="grid md:grid-cols-2">
+        <div className="mb-8 text-center md:text-left">
+          <div className="flex flex-col  md:justify-start">
             <h1 className="tracking-tighest mt-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 bg-clip-text text-4xl font-extrabold uppercase text-transparent sm:text-5xl lg:text-7xl">
               Qatar 2022 Sticker Album Tracker
             </h1>{' '}
@@ -27,6 +27,13 @@ export default function Index() {
           >
             Regístrate
           </Link>
+        </div>
+        <div>
+          <img
+            src="/assets/img/panini-album.webp"
+            alt="Panini Sticker Album"
+            className="drop-shadow-lg"
+          />
         </div>
       </section>
     </div>

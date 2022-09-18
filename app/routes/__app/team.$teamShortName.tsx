@@ -1,5 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
-import type { ActionFunction, DataFunctionArgs } from '@remix-run/node'
+import type { ActionFunction, DataFunctionArgs, MetaFunction } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { requireUserId } from '~/services/auth.server'
 
@@ -39,6 +39,10 @@ export const action: ActionFunction = async ({ request }) => {
   }
 }
 
+export const meta: MetaFunction<LoaderData> = ({ data, params: { teamShortName } }) => ({
+  title: `Stickers de ${teamShortName}`,
+})
+
 export default function Slug() {
   const { stickers, teamTotal } = useLoaderData<LoaderData>()
 
@@ -57,7 +61,7 @@ export default function Slug() {
         </h2>
       </div>
       <hr className="border-t-2 border-dotted border-slate-700" />
-      <div className="mt-4 gap-6 sm:grid sm:grid-cols-fluid">
+      <div className="mt-4 grid grid-cols-2 gap-6 sm:grid-cols-fluid">
         {stickers.map(sticker => {
           return (
             <Sticker

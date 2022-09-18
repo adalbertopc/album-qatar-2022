@@ -25,7 +25,8 @@ export const Sticker: React.FC<StickerProps> = ({
   className,
   variant = 'large',
 }) => {
-  const color = teamsData[team.toLowerCase()].colors[0]
+  const special = team === 'FWC'
+  const color = teamsData[team.toLowerCase()]?.colors[0] || 'slate'
   const textColor: string = color === 'white' ? 'text-black' : 'text-white'
   return (
     <div
@@ -34,6 +35,7 @@ export const Sticker: React.FC<StickerProps> = ({
         'group mx-auto h-52 w-40 rounded-xl shadow-md transition-all hover:scale-105',
         {
           [`border-${color}-500 border-4 border-opacity-70`]: color,
+          'border-4 border-blue-500 ': special,
           'border-opacity-20': quantity === 0 || quantity === undefined || quantity === null,
           'h-52 w-40': variant === 'large',
           'h-36 w-28': variant === 'small',
@@ -45,11 +47,13 @@ export const Sticker: React.FC<StickerProps> = ({
           'relative flex h-full w-full  items-center justify-center rounded-lg bg-slate-800'
         )}
       >
-        <img
-          src={getFlagUrl(team)}
-          alt={team}
-          className="absolute left-1/2 top-1 h-8 w-8 -translate-x-1/2 object-contain drop-shadow-lg"
-        />
+        {!special && (
+          <img
+            src={getFlagUrl(team)}
+            alt={team}
+            className="absolute left-1/2 top-1 h-8 w-8 -translate-x-1/2 object-contain drop-shadow-lg"
+          />
+        )}
         <div
           className={clsx('z-20 text-center', textColor, {
             'mt-8': variant === 'small',

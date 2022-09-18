@@ -30,8 +30,8 @@ export default function Index() {
         </div>
       </section>
 
-      <footer className="mt-8">
-        <h2 className="order-first bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text font-medium tracking-wide text-transparent">
+      <footer className="mt-8 text-center md:text-left">
+        <h2 className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text font-medium tracking-wide text-transparent">
           Hecho con 🧡 por{' '}
           <a className="font-bold" href="https://adal.dev">
             adal

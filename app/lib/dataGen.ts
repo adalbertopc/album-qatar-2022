@@ -30,3 +30,12 @@ export function dataGen() {
     })
   })
 }
+
+export async function fillFwc() {
+  for (let i = 1; i < 30; i++) {
+    await createSticker({
+      number: i,
+      team: '2b8cbd22-0729-447d-8208-02110809d577',
+    }).then(res => console.log(res))
+  }
+}

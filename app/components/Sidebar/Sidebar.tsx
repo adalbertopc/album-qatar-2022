@@ -71,7 +71,7 @@ export const Sidebar: React.FC = () => {
               variant="secondary"
             >
               <ArrowLeftOnRectangleIcon className="h-5 w-5 stroke-2" />
-              Logout
+              Cerrar sesión
             </Button>
           </Form>
         </div>

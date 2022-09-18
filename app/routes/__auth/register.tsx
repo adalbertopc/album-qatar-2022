@@ -12,7 +12,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData()
   const username = String(formData.get('username'))
-  const name = String(formData.get('name'))
+  const favoriteTeam = String(formData.get('team'))
   const password = String(formData.get('password'))
   const passwordConfirmation = String(formData.get('confirm_password'))
 
@@ -34,15 +34,6 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
-  if (username)
-    if (name.toString().length < 2) {
-      return json({
-        error: {
-          name: 'El nombre debe tener al menos 2 caracteres',
-        },
-      })
-    }
-
   if (password.length < 8) {
     return json({
       error: {
@@ -59,7 +50,7 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
-  return await register({ username: username.toLowerCase(), name, password })
+  return await register({ username: username.toLowerCase(), favoriteTeam, password })
 }
 
 export const meta: MetaFunction = () => {
@@ -79,15 +70,6 @@ export default function Register() {
         method="post"
         className="flex w-full max-w-md flex-col rounded-2xl border border-gray-300 p-10"
       >
-        <Input
-          label="Nombre"
-          name="name"
-          placeholder="Escribe tu nombre"
-          className="mb-4"
-          error={errors?.error?.username}
-          min={2}
-          max={20}
-        />
         <Input
           label="Nombre de usuario"
           name="username"
@@ -124,7 +106,7 @@ export default function Register() {
           error={errors?.error?.password}
         />
         <Button type="submit" disabled={state === 'loading'}>
-          {state === 'loading' ? 'Cargando...' : 'Registrarse'}
+          {state === 'submitting' ? 'Cargando...' : 'Registrarse'}
         </Button>
         {state !== 'loading' && (
           <>

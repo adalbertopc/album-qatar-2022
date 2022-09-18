@@ -1,0 +1,23 @@
+{
+  "register": "Sign Up",
+  "made_with_love": "Made with 🧡 by",
+  "see_code": "See source code",
+  "subheading": "Start to track your Panini FIFA World Cup Qatar 2022 album stickers",
+  "credits": "Credits",
+  "login": "Sign In",
+  "my_collection": "My Collection",
+  "username": "Username",
+  "username_placeholder": "Enter your username",
+  "password": "Password",
+  "password_placeholder": "Enter your password",
+  "password_confirmation": "Password Confirmation",
+  "password_confirmation_placeholder": "Enter your password confirmation",
+  "login_button": "Sign In",
+  "dont_have_account": "Don't have an account?",
+  "have_account": "Already have an account?",
+  "world_cup_favorite_team": "World Cup Favorite Team",
+  "world_cup_favorite_team_placeholder": "Select your favorite team",
+  "language": "Language",
+  "spanish": "Spanish",
+  "english": "English"
+}

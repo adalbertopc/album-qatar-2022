@@ -1,6 +1,6 @@
 export type RegisterForm = {
   username: string
-  name: string
+  favoriteTeam?: string
   password: string
 }
 

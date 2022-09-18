@@ -9,11 +9,11 @@ export const createUser = async (user: RegisterForm) => {
   const newUser = await prisma.user.create({
     data: {
       username: user.username,
-      name: user.name,
+      favoriteTeam: user.favoriteTeam,
       password: passwordHash,
     },
   })
-  return { id: newUser.id, username: user.username, name: user.name }
+  return { id: newUser.id, username: user.username, favoriteTeam: user.favoriteTeam }
 }
 
 export const editUser = async (user: EditUserForm) => {

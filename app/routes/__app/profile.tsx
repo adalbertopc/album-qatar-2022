@@ -30,7 +30,7 @@ export default function Profile() {
             Perfil
           </h1>
           <h2 className="mt-4 flex items-center gap-4 text-3xl font-medium">
-            {user?.favoriteTeam && (
+            {user?.favoriteTeam && user?.favoriteTeam !== '' && (
               <img src={getFlagUrl(user.favoriteTeam)} alt={user.favoriteTeam} />
             )}
             {user?.username}

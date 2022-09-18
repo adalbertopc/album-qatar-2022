@@ -3,8 +3,10 @@ import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { Sticker, TeamCard } from '~/components'
 import { teamsData } from '~/constants/teams'
+import { fillFwc } from '~/lib/dataGen'
 
 export const loader: LoaderFunction = async () => {
+  // await fillFwc()
   return json(teamsData)
 }
 
@@ -30,7 +32,6 @@ export default function Test() {
             showButtons
             quantity={0}
             variant="small"
-            obtained={true}
           />
         )
       })}

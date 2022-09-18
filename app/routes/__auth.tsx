@@ -3,7 +3,7 @@ import { Header } from '~/components'
 
 export default function Auth() {
   return (
-    <div className="">
+    <div className="mx-auto max-w-5xl px-2">
       <Header />
       <Outlet />
     </div>

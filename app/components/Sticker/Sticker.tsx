@@ -87,6 +87,7 @@ export const Sticker: React.FC<StickerProps> = ({
                 name="_action"
                 value="remove"
                 className="flex items-center justify-center rounded-lg bg-red-600 shadow-sm transition-all hover:scale-105 hover:bg-red-700"
+                disabled={quantity === 0}
               >
                 <MinusIcon width={30} height={30} className="fill-white" />
               </button>

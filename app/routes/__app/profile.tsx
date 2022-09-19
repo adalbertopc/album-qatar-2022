@@ -42,7 +42,7 @@ export default function Profile() {
         <hr className="border-t-2 border-dotted border-slate-700" />
         <h3 className="my-4 text-lg text-white">Últimos stickers obtenidos</h3>
         <div className="grid grid-cols-2 gap-2 md:grid-cols-fluid">
-          {stickers.map(sticker => {
+          {stickers?.map(sticker => {
             return (
               <div key={sticker.stickerId}>
                 <Sticker

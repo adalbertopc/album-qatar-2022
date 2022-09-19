@@ -43,7 +43,7 @@ export default function Repeated() {
       </div>
       <hr className="border-t-2 border-dotted border-slate-700" />
       <div className="mt-4 grid gap-4 md:grid-cols-fluid">
-        {stickers.map(sticker => {
+        {stickers?.map(sticker => {
           return (
             <div key={sticker.stickerId}>
               <Sticker
